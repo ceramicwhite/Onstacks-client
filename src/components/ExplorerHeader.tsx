@@ -37,7 +37,7 @@ export const ExplorerHeader: React.FC<{
 
   const _search = async () => {
     const result = await fetch(
-      `${stacksAPI}v1/names/${searchTerm.toLowerCase()}`
+      `${stacksAPI}/v1/names/${searchTerm.toLowerCase()}`
     );
     const resData = await result.json();
     const res = await fetch(
