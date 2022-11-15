@@ -4,6 +4,9 @@ import Transaction from "../utils/explorer-types";
 import { explorerInstance } from "../axios/axios";
 import { explorerGetOverviewData } from "../axios/requests";
 
+import { env } from '../env'
+export const stacksAPI = env.REACT_APP_STACKS_BLOCKCHAIN_API_URL;
+
 export interface ExplorerOverview {
   total_txs_24hrs: number;
   total_blocks_24hrs: number;
@@ -55,7 +58,7 @@ export const useExplorer = () => {
     setIsLoading(true);
     try {
       fetch(
-        `https://stacks-node-api.mainnet.stacks.co/extended/v1/tx?limit=${10}&offset=${
+        `${stacksAPI}/extended/v1/tx?limit=${10}&offset=${
           offs === 1 ? 0 : recentTransactions.length
         }`
       )
@@ -79,7 +82,7 @@ export const useExplorer = () => {
     setIsLoading(true);
     try {
       fetch(
-        `https://stacks-node-api.mainnet.stacks.co/extended/v1/tx/mempool?unanchored=true&limit=${10}&offset=${
+        `${stacksAPI}/extended/v1/tx/mempool?unanchored=true&limit=${10}&offset=${
           offs === 1 ? 0 : recentTransactions.length
         }`
       )
@@ -102,7 +105,7 @@ export const useExplorer = () => {
   const getAnchoredBlockList = async () => {
     setIsAnchoredBlockLoading(true);
     fetch(
-      `https://stacks-node-api.mainnet.stacks.co/extended/v1/block?&limit=${10}&offset=${
+      `${stacksAPI}/extended/v1/block?&limit=${10}&offset=${
         recentBlocks.length
       }`
     )
@@ -126,7 +129,7 @@ export const useExplorer = () => {
 
   const getMicroBlock = (hash: string) => {
     return fetch(
-      "https://stacks-node-api.mainnet.stacks.co/extended/v1/microblock/" + hash
+      `${stacksAPI}/extended/v1/microblock/` + hash
     )
       .then((response) => response.json())
       .then((data) => data);

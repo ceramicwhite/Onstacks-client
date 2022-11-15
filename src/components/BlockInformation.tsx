@@ -8,6 +8,9 @@ import Reward from "../assets/side-menu/reward-verified.svg";
 import { getBlockHash } from "../utils/helper";
 import { useHistory } from "react-router-dom";
 
+import { env } from '../env'
+export const mempoolURL = env.REACT_APP_MEMPOOL_SPACE_URL;
+
 interface Props {
   blockNumber: number;
   timeElapsed: string;
@@ -57,7 +60,7 @@ export const BlockInformation: React.FC<Props> = ({
             <div
               onClick={() =>
                 window.open(
-                  `https://www.blockchain.com/btc/tx/${currentBlock?.block_info.tx_id}`,
+                  `${mempoolURL}/btc/tx/${currentBlock?.block_info.tx_id}`,
                   "_blank"
                 )
               }
@@ -93,7 +96,7 @@ export const BlockInformation: React.FC<Props> = ({
             <p
               onClick={() =>
                 window.open(
-                  `https://www.blockchain.com/btc/tx/${currentBlock?.block_info.tx_id}`,
+                  `${mempoolURL}/btc/tx/${currentBlock?.block_info.tx_id}`,
                   "_blank"
                 )
               }
@@ -111,7 +114,7 @@ export const BlockInformation: React.FC<Props> = ({
               <p
                 onClick={() =>
                   window.open(
-                    `https://www.blockchain.com/btc/block/${currentBlock?.btc_block_height}`,
+                    `${mempoolURL}/btc/block/${currentBlock?.btc_block_height}`,
                     "_blank"
                   )
                 }

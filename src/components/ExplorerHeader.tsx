@@ -9,6 +9,10 @@ import { getBlockHash } from "../utils/helper";
 import { SearchResult, SearchResultType } from "../utils/search-types";
 import { truncateMiddle } from "../utils/utils";
 
+import { env } from '../env'
+export const stacksAPI = env.REACT_APP_STACKS_BLOCKCHAIN_API_URL;
+export const mempoolURL = env.REACT_APP_MEMPOOL_SPACE_URL;
+
 export const ExplorerHeader: React.FC<{
   overviewData: ExplorerOverview;
   tabIndex?: number;
@@ -33,11 +37,11 @@ export const ExplorerHeader: React.FC<{
 
   const _search = async () => {
     const result = await fetch(
-      `https://stacks-node-api.mainnet.stacks.co/v1/names/${searchTerm.toLowerCase()}`
+      `${stacksAPI}v1/names/${searchTerm.toLowerCase()}`
     );
     const resData = await result.json();
     const res = await fetch(
-      `https://stacks-node-api.mainnet.stacks.co/extended/v1/search/${searchTerm}`
+      `${stacksAPI}/extended/v1/search/${searchTerm}`
     );
     const data = await res.json();
 
@@ -66,7 +70,7 @@ export const ExplorerHeader: React.FC<{
       setName(searchTerm);
     } else if (!data.message && data.found) {
       const results = await fetch(
-        `https://stacks-node-api.mainnet.stacks.co/v1/addresses/stacks/${searchTerm.toLowerCase()}`
+        `${stacksAPI}/v1/addresses/stacks/${searchTerm.toLowerCase()}`
       );
       const res = await results.json();
       setSearchData(data);
@@ -119,7 +123,7 @@ export const ExplorerHeader: React.FC<{
           <a
             style={{ marginLeft: 16, color: "white" }}
             target="_blank"
-            href={"https://btc.com/btc/block/" + overviewData.BTC_height}
+            href={`${mempoolURL}/block/` + overviewData.BTC_height}
             rel="noopener noreferrer"
           >
             BTC Block Height: &nbsp;

@@ -9,6 +9,9 @@ import { minerInformations } from "../graphql/query/miningMonitorConfig";
 import { numFormatter } from "../utils/helper";
 import { SatsCommittedProps } from "./useOverview";
 
+import { env } from '../env'
+export const stacksAPI = env.REACT_APP_STACKS_BLOCKCHAIN_API_URL;
+
 export interface MinerInfo {
   stx_address: string;
   total_burnfee: number;
@@ -141,7 +144,7 @@ export const useAddressDetails = () => {
 
   const getAddressName = async (address: string) => {
     const result = await fetch(
-      `https://stacks-node-api.mainnet.stacks.co/v1/addresses/stacks/${address}`
+      `${stacksAPI}/v1/addresses/stacks/${address}`
     );
     const resData = await result.json();
     if (resData && resData.names.length > 0) {

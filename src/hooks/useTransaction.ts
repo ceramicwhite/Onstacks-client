@@ -7,6 +7,8 @@ import { getTxByTxId } from "../axios/requests";
 // import { config } from "./useExplorerAddressDetail";
 // import { TransactionsApi } from "@stacks/blockchain-api-client";
 // import { config } from "./useExplorerAddressDetail";
+import { env } from '../env'
+export const stacksAPI = env.REACT_APP_STACKS_BLOCKCHAIN_API_URL;
 
 export const useTransaction = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -25,7 +27,7 @@ export const useTransaction = () => {
 
   const getBlock = (block: string) => {
     return fetch(
-      "https://stacks-node-api.mainnet.stacks.co/extended/v1/block/by_height/" +
+      `${stacksAPI}/extended/v1/block/by_height/` +
         block
     )
       .then((response) => response.json())
@@ -34,7 +36,7 @@ export const useTransaction = () => {
 
   const getMicroblocks = (hash: string) => {
     return fetch(
-      "https://stacks-node-api.mainnet.stacks.co/extended/v1/microblock/" + hash
+      `${stacksAPI}/extended/v1/microblock/` + hash
     )
       .then((response) => response.json())
       .then((data) => setMicroBlock(data));
@@ -42,7 +44,7 @@ export const useTransaction = () => {
 
   const getBlockTransactions = (block: string) => {
     return fetch(
-      "https://stacks-node-api.mainnet.stacks.co/extended/v1/tx/block/" + block
+      `${stacksAPI}/extended/v1/tx/block/` + block
     )
       .then((response) => response.json())
       .then((data) => setBlockTransaction(data.results));
@@ -71,7 +73,7 @@ export const useTransaction = () => {
     const name = tx.split(".")[1];
     const address = tx.split(".")[0];
     fetch(
-      `https://stacks-node-api.mainnet.stacks.co/v2/contracts/interface/${address}/${name}`
+      `${stacksAPI}/v2/contracts/interface/${address}/${name}`
     )
       .then((response) => response.json())
       .then((data) =>
@@ -88,7 +90,7 @@ export const useTransaction = () => {
     const name = tx.split(".")[1];
     const address = tx.split(".")[0];
     fetch(
-      `https://stacks-node-api.mainnet.stacks.co/v2/contracts/source/${
+      `${stacksAPI}/v2/contracts/source/${
         addr || address
       }/${contractName || name}`
     )
@@ -102,7 +104,7 @@ export const useTransaction = () => {
 
   const getContractById = (tx: any) => {
     fetch(
-      `https://stacks-node-api.mainnet.stacks.co/extended/v1/contract/${tx}`
+      `${stacksAPI}/extended/v1/contract/${tx}`
     )
       .then((response) => response.json())
       .then((data) => setContractData(data));
@@ -110,7 +112,7 @@ export const useTransaction = () => {
 
   const getContractEvents = (tx: any) => {
     return fetch(
-      `https://stacks-node-api.mainnet.stacks.co/extended/v1/contract/${tx}/events`
+      `${stacksAPI}/extended/v1/contract/${tx}/events`
     )
       .then((response) => response.json())
       .then((data) => setContractEvents(data.results));
@@ -120,7 +122,7 @@ export const useTransaction = () => {
     setIsLoading(true);
     try {
       fetch(
-        `https://stacks-node-api.stacks.co/extended/v1/address/${tx}/transactions?limit=10&offset=${contractTransactions.length}&unanchored=true`
+        `${stacksAPI}/extended/v1/address/${tx}/transactions?limit=10&offset=${contractTransactions.length}&unanchored=true`
       )
         .then((response) => response.json())
         .then((data) => {

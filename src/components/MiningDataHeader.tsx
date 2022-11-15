@@ -9,6 +9,9 @@ import { OverviewProps } from "../hooks/useOverview";
 import { getBlockHash } from "../utils/helper";
 import { InfoCard } from "./InfoCard";
 
+import { env } from '../env'
+export const mempoolURL = env.REACT_APP_MEMPOOL_SPACE_URL;
+
 export const MiningDataHeader: React.FC<{
   overviewData: OverviewProps;
   blockHeights: any;
@@ -79,7 +82,7 @@ export const MiningDataHeader: React.FC<{
           <a
             style={{ marginLeft: 16 }}
             target="_blank"
-            href={"https://btc.com/btc/block/" + blockHeights.BTC_HEIGHT}
+            href={`${mempoolURL}/block/` + blockHeights.BTC_HEIGHT}
             rel="noopener noreferrer"
           >
             BTC block height: &nbsp;

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Transaction from "../utils/explorer-types";
 import { explorerInstance } from "../axios/axios";
+import { env } from '../env'
 import {
   explorerGetAddressRecentTxsList,
   getAddressOverview,
@@ -21,7 +22,11 @@ export interface ExplorerOverview {
   total_balance: number;
 }
 
-export const STACK_API_URL = "https://stacks-node-api.mainnet.stacks.co";
+
+export const stacksAPI = env.REACT_APP_STACKS_BLOCKCHAIN_API_URL;
+export const ipfsGateway = env.REACT_APP_IPFS_GATEWAY_URL;
+
+export const STACK_API_URL = `${stacksAPI}`;
 export const config = new Configuration({ basePath: STACK_API_URL });
 export const accountsApi = new AccountsApi(config);
 
@@ -166,7 +171,7 @@ export const useExplorerAddressDetails = () => {
         ]);
       } else if (item.includes("ipfs://")) {
         const i = item
-          .replace("ipfs://", "https://ipfs.io/ipfs/")
+          .replace("ipfs://", `${ipfsGateway}`)
           .replace("{id}", id)
           .replace("ipfs/ipfs", "ipfs/")
           .replace(`${id}/${id}.`, `${id}.`);
@@ -180,7 +185,7 @@ export const useExplorerAddressDetails = () => {
             ...oldArray,
             {
               image: resData.image
-                .replace("ipfs://", "https://ipfs.io/ipfs/")
+                .replace("ipfs://", `${ipfsGateway}`)
                 .replace("ipfs/ipfs", "ipfs/"),
               id,
               name: contractName,
@@ -203,7 +208,7 @@ export const useExplorerAddressDetails = () => {
             ...oldArray,
             {
               image: resData.image
-                .replace("ipfs://", "https://ipfs.io/ipfs/")
+                .replace("ipfs://", `${ipfsGateway}`)
                 .replace("ipfs/ipfs", "ipfs/"),
               id,
               name: contractName,
@@ -218,7 +223,7 @@ export const useExplorerAddressDetails = () => {
 
   const getName = async () => {
     const result = await fetch(
-      `https://stacks-node-api.mainnet.stacks.co/v1/addresses/stacks/${address}`,
+      `${stacksAPI}/v1/addresses/stacks/${address}`,
       {
         mode: "cors",
       }
